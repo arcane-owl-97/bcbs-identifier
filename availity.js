@@ -1,88 +1,64 @@
-/* BCBS Home State Identifier — Styles */
-/* Updated: March 2026 */
+// Availity REST API Transaction Support
+// Source: Availity Payer List Export CSV (March 2026)
+// Contact Sales = Available per contract
+// Format: AV = { "Plan Name": [{p:"PID", n:"name", t:{e270:1/0, pa_in:1/0, ...}}] }
 
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--p:#0070DD;--pd:#0052A3;--bg:#F4F4F4;--c:#fff;--t:#2F2F2F;--s:#6B778C;--bd:#E5E5E5;--ok:#36B37E;--ob:#E3FCEF;--ot:#006644;--wb:#FFF7E6;--wt:#A35200;--eb:#FFEBE6;--et:#BF2600;--ib:#EBF5FF;--it:#0052A3;--r:8px;--at:#5B21B6;--ab:#EDE9FE}
-body{font-size:15px;font-family:'Nunito Sans',sans-serif;background:var(--bg);color:var(--t);min-height:100vh;-webkit-user-select:none;-moz-user-select:none;user-select:none}
-.hdr{background:linear-gradient(135deg,#0070DD,#003D7A);color:#fff;padding:20px 16px 14px;text-align:center}
-.hdr h1{font-size:22px;font-weight:900}
-.hdr p{font-size:13px;opacity:.85;margin-top:4px}
-.sticky{position:sticky;top:0;z-index:100;background:var(--c);border-bottom:1px solid var(--bd);box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.tw{max-width:980px;margin:0 auto;padding:0 12px}
-.tabs{display:flex}
-.tab{flex:1;padding:11px 6px;text-align:center;font-size:14px;font-weight:600;color:var(--s);background:var(--c);cursor:pointer;border:none;border-bottom:3px solid transparent;font-family:inherit;transition:all .15s}
-.tab.on{color:var(--p);font-weight:700;border-bottom-color:var(--p)}
-.ctr{max-width:980px;margin:0 auto;padding:12px 12px 40px}
-.cd{background:var(--c);border-radius:var(--r);border:1px solid var(--bd);padding:16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
-.lb{font-size:12px;font-weight:700;color:var(--s);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
-input[type=text],select{width:100%;padding:11px 14px;border:1px solid var(--bd);border-radius:6px;font-size:15px;font-family:inherit;outline:none}
-input:focus,select:focus{border-color:var(--p);box-shadow:0 0 0 2px rgba(0,112,221,.15)}
-.btn{background:var(--p);color:#fff;border:none;border-radius:6px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-family:inherit}
-.btn:hover{background:var(--pd)}
-.ok{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:4px;font-size:12px;font-weight:700;background:var(--ob);color:var(--ot)}
-.no{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:4px;font-size:12px;font-weight:700;background:var(--eb);color:var(--et)}
-.at{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:4px;font-size:12px;font-weight:700;background:var(--ab);color:var(--at)}
-.al{border-radius:6px;padding:12px 16px;font-size:13px;display:flex;gap:8px;align-items:flex-start;margin-bottom:10px;line-height:1.5}
-.al-i{background:var(--ib);border:1px solid #B3D4FC;color:var(--it)}
-.al-e{background:var(--eb);border:1px solid #FF8F73;color:var(--et)}
-.al-w{background:var(--wb);border:1px solid #FFD566;color:var(--wt)}
-.rc{background:var(--c);border-radius:var(--r);border:2px solid var(--p);padding:16px;margin-top:10px;box-shadow:0 2px 8px rgba(0,112,221,.08)}
-.pb{background:var(--ib);padding:6px 14px;border-radius:8px;text-align:center}
-.pb .l{font-size:11px;font-weight:700;color:var(--s);text-transform:uppercase}
-.pb .v{font-size:28px;font-weight:900;color:var(--pd);font-family:monospace;letter-spacing:2px}
-.pr{padding:10px 14px;border-radius:6px;border:1px solid #f0f0f0;margin-bottom:6px;transition:all .15s}
-.pr:hover{border-color:var(--p);background:#FAFBFF}
-.acc-toggle{cursor:pointer}
-.acc-body{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--bd)}
-.acc-body.open{display:block}
-.avtbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
-.avtbl th{text-align:left;padding:8px 10px;background:#F4F5F7;font-size:11px;text-transform:uppercase;color:var(--s);font-weight:700;border-bottom:2px solid var(--bd)}
-.avtbl td{padding:8px 10px;border-bottom:1px solid #f0f0f0}
-.avtbl tr:hover td{background:#FAFBFF}
-.fl{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.f1{flex:1;min-width:0}
-.mt{margin-top:10px}
-.hd{display:none}
-.mono{font-family:monospace;font-weight:700}
-table.ptbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
-table.ptbl th{text-align:left;padding:8px 10px;background:#F4F5F7;font-weight:700;font-size:11px;text-transform:uppercase;color:var(--s);border-bottom:2px solid var(--bd)}
-table.ptbl td{padding:8px 10px;border-bottom:1px solid #F0F0F0}
-table.ptbl tr:hover td{background:#FAFBFF}
-a{color:var(--p)}
-.ft{text-align:center;padding:20px 16px;font-size:12px;color:var(--s);line-height:1.6;border-top:1px solid var(--bd);margin-top:20px}
-.vm{font-size:13px;margin-top:6px;display:flex;align-items:center;gap:4px}
-.vm-ok{color:var(--ok)}.vm-e{color:var(--et)}.vm-w{color:var(--wt)}
-#gtt{position:fixed;bottom:20px;right:20px;width:44px;height:44px;border-radius:50%;background:var(--p);color:#fff;border:none;cursor:pointer;font-size:20px;display:none;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.25);z-index:200}
-#gtt:hover{background:var(--pd)}
-.modal-bg{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:300;display:none;align-items:center;justify-content:center}
-.modal-bg.open{display:flex}
-.modal{background:var(--c);border-radius:12px;width:90%;max-width:700px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 8px 30px rgba(0,0,0,.2)}
-.modal-hdr{padding:16px 20px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center}
-.modal-hdr h3{font-size:16px;font-weight:800;color:var(--pd)}
-.modal-close{background:none;border:none;font-size:24px;cursor:pointer;color:var(--s);padding:4px 8px}
-.modal-body{padding:16px 20px;overflow-y:auto;flex:1;-webkit-user-select:none;user-select:none}
-.pfx-group{margin-bottom:12px}
-.pfx-letter{font-size:14px;font-weight:800;color:var(--pd);padding:4px 0;border-bottom:1px solid var(--bd);margin-bottom:6px}
-.pfx-grid{display:flex;flex-wrap:wrap;gap:4px}
-.pfx-tag{font-family:monospace;font-size:13px;font-weight:700;background:#F4F5F7;color:var(--t);padding:3px 8px;border-radius:4px}
-.pfx-count{font-size:13px;color:var(--s);margin-left:8px}
-.loading{text-align:center;padding:40px 20px;color:var(--s);font-size:14px}
-.loading .spinner{display:inline-block;width:24px;height:24px;border:3px solid var(--bd);border-top-color:var(--p);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:8px}
-@keyframes spin{to{transform:rotate(360deg)}}
+const AV={"Anthem Blue Cross":[{"p":"040","n":"ANTHEM BC CALIFORNIA","s":"","t":{e270:1,pa_in:1,pa_out:1,ref:1,pa_det:0}}],
+"Anthem Blue Cross and Blue Shield":[{"p":"303","n":"ANTHEM BC NY","s":"303","t":{e270:1,pa_in:1,pa_out:1,ref:1,pa_det:0}},{"p":"803","n":"ANTHEM BCBS NY","s":"803","t":{e270:1,pa_in:1,pa_out:1,ref:1,pa_det:0}}],
+"Anthem Blue Cross and Blue Shield Colorado":[{"p":"050","n":"ANTHEM BCBS COLORADO","s":"","t":{e270:1,pa_in:1,pa_out:1,ref:1,pa_det:0}}],
+"Anthem Blue Cross and Blue Shield Connecticut":[{"p":"060","n":"ANTHEM BCBS CONNECTICUT","s":"","t":{e270:1,pa_in:1,pa_out:1,ref:1,pa_det:0}}],
+"Anthem Blue Cross and Blue Shield Indiana":[{"p":"130","n":"ANTHEM BCBS INDIANA","s":"ANTHEM_IN","t":{e270:1,pa_in:1,pa_out:1,ref:1,pa_det:0}}],
+"Anthem Blue Cross and Blue Shield Kentucky":[{"p":"160","n":"ANTHEM BCBS KENTUCKY","s":"ANTHEM_KY","t":{e270:1,pa_in:1,pa_out:1,ref:1,pa_det:0}}],
+"Anthem Blue Cross and Blue Shield Maine":[{"p":"180","n":"ANTHEM BCBS MAINE","s":"","t":{e270:1,pa_in:1,pa_out:1,ref:1,pa_det:0}},{"p":"958","n":"ANTHEM MAINEHEALTH","s":"","t":{e270:1,pa_in:1,pa_out:1,ref:1,pa_det:0}}],
+"Anthem Blue Cross and Blue Shield Missouri":[{"p":"241","n":"ANTHEM BCBS MISSOURI","s":"ANTHEM_MO","t":{e270:1,pa_in:1,pa_out:1,ref:1,pa_det:0}}],
+"Anthem Blue Cross and Blue Shield Nevada":[{"p":"265","n":"Anthem BCBS Nevada","s":"","t":{e270:1,pa_in:1,pa_out:1,ref:1,pa_det:0}}],
+"Anthem Blue Cross and Blue Shield New Hampshire":[{"p":"270","n":"ANTHEM BCBS NEW HAMPSHIRE","s":"","t":{e270:1,pa_in:1,pa_out:1,ref:1,pa_det:0}}],
+"Anthem Blue Cross and Blue Shield Ohio":[{"p":"332","n":"ANTHEM BCBS OHIO","s":"ANTHEM_OH","t":{e270:1,pa_in:1,pa_out:1,ref:1,pa_det:0}}],
+"Anthem Blue Cross and Blue Shield Virginia":[{"p":"423","n":"ANTHEM BCBS VIRGINIA","s":"ANTHEM_VA","t":{e270:1,pa_in:1,pa_out:1,ref:1,pa_det:0}}],
+"Anthem Blue Cross and Blue Shield Wisconsin":[{"p":"450","n":"ANTHEM BCBS WISCONSIN","s":"ANTHEM_WI","t":{e270:1,pa_in:1,pa_out:1,ref:1,pa_det:0}}],
+"Arkansas Blue Cross and Blue Shield":[{"p":"00520","n":"ARKANSAS BCBS","s":"","t":{e270:1,pa_det:0}}],
+"Blue Cross & Blue Shield of Mississippi":[{"p":"100041","n":"BCBS MISSISSIPPI","s":"","t":{e270:1}},{"p":"BCMS","n":"BCBS MISSISSIPPI","s":"","t":{e270:1}}],
+"Blue Cross & Blue Shield of Rhode Island":[{"p":"BCRIC","n":"BCBS RHODE ISLAND","s":"","t":{e270:1}}],
+"Blue Cross Blue Shield of Arizona":[{"p":"53589","n":"AZ BLUE (BCBS ARIZONA)","s":"BCBSARIZON","t":{e270:1}},{"p":"77078","n":"BLUE CROSS BLUE SHIELD ARIZONA ADVANTAGE","s":"","t":{e270:1}}],
+"Blue Cross Blue Shield of Georgia":[{"p":"101","n":"ANTHEM - GA","s":"","t":{e270:1,pa_in:1,pa_out:1,ref:1,pa_det:0}}],
+"Blue Cross Blue Shield of Michigan":[{"p":"00710P","n":"BCBS MICHIGAN PROFESSIONAL","s":"00710P","t":{e270:1}},{"p":"00210I","n":"BCBS MICHIGAN INSTITUTIONAL","s":"00210I","t":{e270:1}},{"p":"00710D","n":"BCBS MICHIGAN DENTAL","s":"00710D","t":{e270:1}},{"p":"00710","n":"BCBSM - FEDERAL EMPLOYEE PROGRAM PLANS","s":"BCBSMI","t":{e270:1}}],
+"Blue Cross Blue Shield of Wyoming":[{"p":"53767","n":"BCBS WYOMING","s":"BCBSWY","t":{e270:1,pa_in:0,pa_out:0,pa_det:0}}],
+"Blue Cross and Blue Shield of Alabama":[{"p":"00510BC","n":"BCBS ALABAMA INSTITUTIONAL","s":"","t":{e270:1}},{"p":"00510BS","n":"BCBS ALABAMA PROFESSIONAL","s":"","t":{e270:1}}],
+"Blue Cross and Blue Shield of Hawaii":[{"p":"100937","n":"BCBS HAWAII","s":"","t":{e270:1}}],
+"Blue Cross and Blue Shield of Illinois":[{"p":"G00621","n":"BCBS ILLINOIS","s":"HCSCIL","t":{e270:1}},{"p":"BCBSIL","n":"BCBS ILLINOIS","s":"BCBSILBCBS","t":{e270:0,pa_in:1,pa_out:1,ref:1}},{"p":"MCIL2","n":"BCBSIL COMMUNITY HEALTH PLANS","s":"MCIL2","t":{e270:0,pa_in:1,pa_out:1,ref:1,pa_det:0}}],
+"Blue Cross and Blue Shield of Kansas":[{"p":"10034","n":"BCBS KANSAS","s":"","t":{e270:1}},{"p":"BCBSKS","n":"BCBS KANSAS","s":"BCBSKS","t":{e270:1}}],
+"Blue Cross and Blue Shield of Kansas City":[{"p":"10473","n":"BCBS KANSAS CITY","s":"","t":{e270:1}}],
+"Blue Cross and Blue Shield of Louisiana":[{"p":"53120","n":"BCBS LOUISIANA","s":"BCBSLA5312","t":{e270:1}},{"p":"72107","n":"BCBS LOUISIANA BLUE ADVANTAGE","s":"BAMLA","t":{e270:1}}],
+"Blue Cross and Blue Shield of Massachusetts":[{"p":"700","n":"BCBS MASSACHUSETTS","s":"","t":{e270:1}}],
+"Blue Cross and Blue Shield of Minnesota":[{"p":"00720","n":"BCBS MINNESOTA","s":"","t":{e270:1}},{"p":"00726","n":"BCBSMN BLUE PLUS MEDICAID (00726)","s":"BCBSMNMEDICAID","t":{e270:1}}],
+"Blue Cross and Blue Shield of Montana":[{"p":"G00751","n":"BCBS MONTANA","s":"BCBSMT","t":{e270:1}},{"p":"BCBSMT","n":"BCBS MONTANA","s":"BCBSMT","t":{pa_in:1,pa_out:1,ref:1}}],
+"Blue Cross and Blue Shield of Nebraska":[{"p":"77780","n":"BLUE SHIELD NEBRASKA","s":"77780","t":{e270:1}}],
+"Blue Cross and Blue Shield of New Mexico":[{"p":"G00790","n":"BCBS NEW MEXICO","s":"HCSCNM","t":{e270:1}},{"p":"BCBSNM","n":"BCBS NEW MEXICO","s":"BCBSNMBCBS","t":{e270:0,pa_in:1,pa_out:1,ref:1}}],
+"Blue Cross and Blue Shield of North Carolina":[{"p":"BCSNC","n":"BCBS NORTH CAROLINA","s":"","t":{e270:1}}],
+"Blue Cross and Blue Shield of Oklahoma":[{"p":"G00840","n":"BCBS OKLAHOMA","s":"HCSCOK","t":{e270:1}},{"p":"BCBSOK","n":"BCBS OKLAHOMA","s":"BCBSOKBCBS","t":{e270:0,pa_in:1,pa_out:1,ref:1}}],
+"Blue Cross and Blue Shield of South Carolina":[{"p":"00401","n":"BCBS SOUTH CAROLINA","s":"","t":{e270:1}}],
+"Blue Cross and Blue Shield of Texas":[{"p":"G84980","n":"BCBS TEXAS","s":"BCBSTXG849","t":{e270:1}},{"p":"BCBSTX","n":"BCBS TEXAS","s":"BCBSTXBCBS","t":{e270:0,pa_in:1,pa_out:1,ref:1}},{"p":"WLPTXCAID","n":"BCBS TEXAS MEDICAID","s":"","t":{pa_in:1,pa_out:1,ref:1}}],
+"Blue Cross and Blue Shield of Vermont":[{"p":"BCBSVT","n":"BCBS VERMONT","s":"BCBSVT","t":{e270:1}}],
+"BlueCross BlueShield of Tennessee":[{"p":"SB890","n":"BCBS TENNESSEE","s":"","t":{e270:1}}],
+"BlueShield of Northeastern New York":[{"p":"N5BLS","n":"BLUE SHIELD OF NORTHEASTERN NEW YORK","s":"N5BLS","t":{e270:1}}],
+"Capital BlueCross":[{"p":"100952","n":"CAPITAL BLUE CROSS PENNSYLVANIA","s":"","t":{e270:1}}],
+"CareFirst BlueCross BlueShield":[{"p":"190","n":"CAREFIRST BCBS","s":"","t":{e270:1}},{"p":"BCDCC","n":"CAREFIRST BCBS DISTRICT OF COLUMBIA","s":"","t":{e270:1}},{"p":"45281","n":"CAREFIRST BCBS COMMUNITY HEALTH PLAN MARYLAND","s":"","t":{e270:1}},{"p":"45282","n":"CAREFIRST BCBS MEDICARE ADVANTAGE","s":"","t":{e270:1}}],
+"Excellus BlueCross BlueShield":[{"p":"100940","n":"EXCELLUS BCBS NEW YORK","s":"","t":{e270:1}}],
+"Florida Blue":[{"p":"BCBSF","n":"FLORIDA BLUE (BCBS FLORIDA)","s":"BCBS_OF_FL","t":{e270:1,pa_in:1,pa_out:1,ref:1,pa_det:0}},{"p":"FBM01","n":"MEDICARE FLORIDA BLUE","s":"FBM01","t":{e270:1,pa_in:1,pa_out:1,ref:1,pa_det:0}}],
+"Florida Explore My Plan":[{"p":"BCBSF","n":"FLORIDA BLUE (BCBS FLORIDA)","s":"BCBS_OF_FL","t":{e270:1,pa_in:1,pa_out:1,ref:1,pa_det:0}}],
+"Highmark Blue Cross Blue Shield":[{"p":"54771I","n":"HIGHMARK BCBS PENNSYLVANIA INSTITUTIONAL","s":"54771I","t":{e270:1}},{"p":"100900","n":"BCBS PENNSYLVANIA NORTHEAST","s":"","t":{e270:1}},{"p":"100338","n":"BCBS PENNSYLVANIA NORTHWEST","s":"","t":{e270:1}}],
+"Highmark Blue Cross Blue Shield Delaware":[{"p":"47181","n":"BCBS DELAWARE HIGHMARK HEALTH OPTIONS INCORPORATED","s":"","t":{e270:1}},{"p":"100026","n":"BCBS DELAWARE","s":"100026","t":{e270:1}}],
+"Highmark Blue Cross Blue Shield West Virginia":[{"p":"54828","n":"HIGHMARK BCBS WEST VIRGINIA","s":"54828","t":{e270:1}},{"p":"100947","n":"BCBS WEST VIRGINIA","s":"","t":{e270:1}},{"p":"MTNST","n":"MOUNTAIN STATE BCBS WEST VIRGINIA","s":"","t":{e270:1}}],
+"Highmark Blue Shield":[{"p":"54771","n":"HIGHMARK BCBS PENNSYLVANIA PROFESSIONAL","s":"54771","t":{e270:1}}],
+"Highmark BlueCross BlueShield of Western New York":[{"p":"BCBSCAIDWNY","n":"HIGHMARK BCBS MMC, CHP, HARP, EP","s":"BCBSCAIDWNY","t":{e270:1,pa_in:0,pa_out:0,ref:0,pa_det:0}},{"p":"246","n":"HIGHMARK BCBS MMC, CHP, HARP, EP","s":"246","t":{e270:1,pa_det:0}}],
+"Highmark BlueShield of Northeastern New York":[{"p":"N5BLS","n":"BLUE SHIELD OF NORTHEASTERN NEW YORK","s":"N5BLS","t":{e270:1}}],
+"Horizon Blue Cross  Blue Shield of New Jersey":[{"p":"22099","n":"HORIZON BCBS NEW JERSEY","s":"HORIZON BCBSNJ","t":{e270:1,pa_det:0}},{"p":"22326","n":"HORIZON NEW JERSEY HEALTH","s":"HORIZON NJ HEALTH","t":{e270:1}},{"p":"100046","n":"BCBS NEW JERSEY","s":"","t":{e270:1}}],
+"Independence Blue Cross":[{"p":"54704","n":"INDEPENDENCE BC PENNSLYVANIA PERSONAL CHOICE","s":"INDEPENDENCEBCPA","t":{e270:1}}],
+"Premera Blue Cross":[{"p":"00430","n":"OTHER BLUE PLANS PREMERA BLUEEXCHANGE (SHARED ADMIN)","s":"PREMERABC","t":{e270:1}},{"p":"00430H","n":"PREMERA HMO","s":"PREMERABC","t":{e270:1}},{"p":"00934","n":"PREMERA BCBS WASHINGTON STATE","s":"PREMERAAK","t":{e270:1,ref:1}}],
+"Regence BlueCross BlueShield":[{"p":"00851","n":"REGENCE BCBS OREGON","s":"","t":{e270:1,pa_in:1,pa_out:1,ref:1}},{"p":"00910","n":"REGENCE BCBS UTAH","s":"REGENCE_UT","t":{e270:1,pa_in:1,pa_out:1,ref:1}}],
+"Regence BlueShield":[{"p":"00932","n":"REGENCE BS WASHINGTON","s":"REGENCE_WA","t":{e270:1,pa_in:1,pa_out:1,ref:1}}],
+"Regence BlueShield of Idaho":[{"p":"00611","n":"REGENCE BS IDAHO","s":"REGENCEBSIDAHO","t":{e270:1,pa_in:1,pa_out:1,ref:1}}],
+"Wellmark Blue Cross and Blue Shield Iowa":[{"p":"88848","n":"WELLMARK BCBS (IOWA, SOUTH DAKOTA)","s":"","t":{e270:1}}],
+"Wellmark Blue Cross and Blue Shield South Dakota":[{"p":"88848","n":"WELLMARK BCBS (IOWA, SOUTH DAKOTA)","s":"","t":{e270:1}}]};
 
-@media(max-width:768px){
-.hdr h1{font-size:18px}.hdr p{font-size:12px}
-.tab{font-size:12px;padding:10px 4px}
-.fl{flex-direction:column;align-items:stretch}.fl.row{flex-direction:row}
-.avtbl{font-size:11px}.avtbl th,.avtbl td{padding:5px 6px}.avtbl th{font-size:9px}
-table.ptbl{font-size:11px}table.ptbl th,table.ptbl td{padding:5px 6px}
-.ok,.no,.at{font-size:10px;padding:2px 6px}
-.cd{padding:12px}.rc{padding:12px}.pb .v{font-size:22px}
-.modal{width:95%;max-height:85vh}
-}
-@media(max-width:480px){
-.hdr{padding:16px 12px 12px}.hdr h1{font-size:16px}
-.tab{font-size:11px;padding:9px 2px}
-body{font-size:14px}input[type=text],select{font-size:14px;padding:9px 10px}
-.avtbl{display:block;overflow-x:auto}table.ptbl{display:block;overflow-x:auto}
-}
+const A275=new Set(["Anthem Blue Cross", "Anthem Blue Cross and Blue Shield Colorado", "Anthem Blue Cross and Blue Shield Connecticut", "Blue Cross Blue Shield of Georgia", "Anthem Blue Cross and Blue Shield Indiana", "Anthem Blue Cross and Blue Shield Kentucky", "Anthem Blue Cross and Blue Shield Maine", "Anthem Blue Cross and Blue Shield Missouri", "Anthem Blue Cross and Blue Shield Nevada", "Anthem Blue Cross and Blue Shield New Hampshire", "Anthem Blue Cross and Blue Shield Ohio", "Anthem Blue Cross and Blue Shield Virginia", "Anthem Blue Cross and Blue Shield Wisconsin", "Anthem Blue Cross and Blue Shield", "Blue Cross and Blue Shield of Illinois", "Blue Cross and Blue Shield of Texas", "Blue Cross and Blue Shield of Montana", "Blue Cross and Blue Shield of New Mexico", "Blue Cross and Blue Shield of Oklahoma", "Regence BlueShield", "Regence BlueCross BlueShield", "Regence BlueShield of Idaho", "Premera Blue Cross"]);
