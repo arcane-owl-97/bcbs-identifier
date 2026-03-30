@@ -1,8 +1,9 @@
 // ═══════════════════════════════════════════════════════════════════════════
-// Availity Transaction Support Refresh — v1.1
-// Queries public Availity payer list API for each payer in D1
-// Updates has_270, has_pa_in, has_pa_out, has_ref based on live REST routes
-// String/number comparison fix applied throughout
+// Availity Transaction Support Refresh — v1.2
+// Key logic: has_ref = 1 if tx:138 exists in ANY mode (not just REST)
+// because Referral REST may be "Contact Sales" (premium) and not visible
+// as a standard REST route in the ARIES payer list API.
+// has_270, has_pa_in, has_pa_out = REST (modeCode:10) only.
 // ═══════════════════════════════════════════════════════════════════════════
 
 const fetch = require('node-fetch');
@@ -12,12 +13,13 @@ const CONFIG = {
   cfDatabaseId: '704682fb-fcfd-4c41-b5aa-4da131295a6b',
   cfApiToken: process.env.CF_API_TOKEN,
   availityUrl: 'https://essentials.availity.com/cloud/public/onb/epdm/es/public/v1/payers-hipaa',
-  REST_MODE: '10',  // string — API returns modeCode as string
+  REST_MODE: '10',
   TX: {
-    ELIG_270: [1],        // 270 Eligibility
-    PA_OUT:   [6],        // 278 Outpatient PA / Service Review
-    PA_IN:    [259, 436], // 278 Inpatient Auth (HCSC=259, Anthem=436)
-    REF:      [138],      // 278 Referral (Note: Anthem does NOT use REST 138)
+    ELIG_270: [1],
+    PA_OUT:   [6],
+    PA_IN:    [259, 436],
+    // REF uses ANY mode — if 138 exists in any channel, referral is supported
+    REF_ANY:  [138],
   },
   LOB_SKIP:     ['DENTAL', 'RECLAMATION', 'ENCOUNTER', 'WGS'],
   LOB_MEDICAID: ['MEDICAID', 'MYCARE', 'COMMUNITY HEALTH'],
@@ -35,17 +37,21 @@ function detectLob(name) {
   return 'Commercial';
 }
 
-function parseRestRoutes(processingRoutes) {
-  // modeCode and transactionTypeCode come as strings from the API
-  const codes = (processingRoutes || [])
+function parseRoutes(processingRoutes) {
+  const all = (processingRoutes || []);
+  // REST-only codes (modeCode === '10')
+  const restCodes = all
     .filter(r => String(r.modeCode) === CONFIG.REST_MODE)
     .map(r => Number(r.transactionTypeCode));
+  // All-mode codes (for referral detection)
+  const allCodes = all.map(r => Number(r.transactionTypeCode));
 
   return {
-    has_270:    codes.some(c => CONFIG.TX.ELIG_270.includes(c)) ? 1 : 0,
-    has_pa_out: codes.some(c => CONFIG.TX.PA_OUT.includes(c))  ? 1 : 0,
-    has_pa_in:  codes.some(c => CONFIG.TX.PA_IN.includes(c))   ? 1 : 0,
-    has_ref:    codes.some(c => CONFIG.TX.REF.includes(c))     ? 1 : 0,
+    has_270:    restCodes.some(c => CONFIG.TX.ELIG_270.includes(c)) ? 1 : 0,
+    has_pa_out: restCodes.some(c => CONFIG.TX.PA_OUT.includes(c))  ? 1 : 0,
+    has_pa_in:  restCodes.some(c => CONFIG.TX.PA_IN.includes(c))   ? 1 : 0,
+    // Referral: exists in ANY mode = available (may require contract for REST)
+    has_ref:    allCodes.some(c => CONFIG.TX.REF_ANY.includes(c))  ? 1 : 0,
   };
 }
 
@@ -60,24 +66,8 @@ async function d1Query(sql, params = []) {
     body: JSON.stringify({ sql, params })
   });
   const data = await res.json();
-  if (!data.success) throw new Error(`D1 error: ${JSON.stringify(data.errors)}`);
+  if (!data.success) throw new Error(`D1: ${JSON.stringify(data.errors)}`);
   return data.result[0];
-}
-
-async function getAllPrefixesFromD1() {
-  const result = await d1Query(
-    `SELECT DISTINCT availity_payer_ids, plan_name
-     FROM prefixes
-     WHERE availity_payer_ids IS NOT NULL AND availity_payer_ids != ''
-     GROUP BY availity_payer_ids`
-  );
-  const idMap = {};
-  (result.results || []).forEach(row => {
-    row.availity_payer_ids.split(',').map(s => s.trim()).forEach(id => {
-      idMap[id] = row.plan_name;
-    });
-  });
-  return idMap;
 }
 
 async function queryAvailityPayer(ariesId) {
@@ -89,20 +79,15 @@ async function queryAvailityPayer(ariesId) {
 }
 
 async function refreshAvailityData() {
-  log('Starting Availity transaction support refresh...');
+  log('Starting Availity transaction support refresh v1.2...');
   if (!CONFIG.cfApiToken) throw new Error('CF_API_TOKEN not set');
 
-  log('Loading Availity payer IDs from D1...');
-  const idMap = await getAllPrefixesFromD1();
-  const uniqueIds = Object.keys(idMap);
-  log(`Found ${uniqueIds.length} unique Availity payer IDs`);
-
-  // Group IDs back by their original comma-separated group
   const result = await d1Query(
     `SELECT DISTINCT availity_payer_ids, plan_name, has_270, has_pa_in, has_pa_out, has_ref
      FROM prefixes WHERE availity_payer_ids != '' GROUP BY availity_payer_ids`
   );
   const groups = result.results || [];
+  log(`Processing ${groups.length} payer groups...`);
 
   const updated = [], unchanged = [], errors = [];
 
@@ -115,10 +100,11 @@ async function refreshAvailityData() {
       try {
         const payers = await queryAvailityPayer(ariesId);
         const matching = payers.filter(p => p.ariesId === ariesId && detectLob(p.name) !== null);
+
         matching.forEach(p => {
           const lob = detectLob(p.name);
           if (lob && !lobsFound.includes(lob)) lobsFound.push(lob);
-          const routes = parseRestRoutes(p.processingRoutes);
+          const routes = parseRoutes(p.processingRoutes);
           api_270    = Math.max(api_270,    routes.has_270);
           api_pa_out = Math.max(api_pa_out, routes.has_pa_out);
           api_pa_in  = Math.max(api_pa_in,  routes.has_pa_in);
@@ -126,6 +112,7 @@ async function refreshAvailityData() {
         });
       } catch(e) {
         log(`  Error querying ${ariesId}: ${e.message}`);
+        errors.push({ ariesId, error: e.message });
       }
       await delay(120);
     }
@@ -139,6 +126,7 @@ async function refreshAvailityData() {
                     d1_pa_out !== api_pa_out || d1_ref !== api_ref;
 
     if (changed) {
+      // Use the first ID for the LIKE match (most specific)
       await d1Query(
         `UPDATE prefixes SET has_270=?, has_pa_in=?, has_pa_out=?, has_ref=?
          WHERE availity_payer_ids LIKE ?`,
@@ -146,17 +134,14 @@ async function refreshAvailityData() {
       );
       log(`  ✅ ${group.plan_name}`);
       log(`     270: ${d1_270}→${api_270} | PA-IN: ${d1_pa_in}→${api_pa_in} | PA-OUT: ${d1_pa_out}→${api_pa_out} | REF: ${d1_ref}→${api_ref}`);
-      updated.push({ plan: group.plan_name, ids: group.availity_payer_ids });
+      updated.push({ plan: group.plan_name, ids: group.availity_payer_ids, lobs: lobsFound.sort().join(',') });
     } else {
+      log(`  ✓ ${group.plan_name} — no changes`);
       unchanged.push(group.plan_name);
     }
   }
 
-  log(`\nAvaility refresh complete:`);
-  log(`  Updated:   ${updated.length}`);
-  log(`  Unchanged: ${unchanged.length}`);
-  log(`  Errors:    ${errors.length}`);
-
+  log(`\nRefresh complete — Updated: ${updated.length} | Unchanged: ${unchanged.length} | Errors: ${errors.length}`);
   return { updated, unchanged, errors };
 }
 
