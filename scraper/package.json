@@ -1,0 +1,14 @@
+{
+  "name": "bcbs-prefix-scraper",
+  "version": "1.0.0",
+  "description": "Quarterly BCBS prefix scraper with D1 sync and email alerts",
+  "main": "scrape.js",
+  "scripts": {
+    "scrape": "node scrape.js",
+    "test": "node scrape.js --test"
+  },
+  "dependencies": {
+    "puppeteer": "^21.0.0",
+    "node-fetch": "^2.7.0"
+  }
+}
