@@ -1,3 +1,4 @@
+
 // ═══════════════════════════════════════════════════════════════════════════
 // BCBS Prefix Scraper — Quarterly automated sync
 // Uses puppeteer-core + system Chrome (no bundled browser download)
@@ -5,6 +6,7 @@
 
 const puppeteer = require('puppeteer-core');
 const fetch = require('node-fetch');
+const { refreshAvailityData } = require('./refresh-availity');
 
 const CONFIG = {
   delayMs: 200,
@@ -250,7 +252,17 @@ async function main() {
     ? `⚠️ BCBS Prefix Update — ${added.length} added, ${changed.length} changed, ${removed.length} removed`
     : `✅ BCBS Prefix Check Complete — No changes (${runDate})`;
 
-  await sendEmail(subject, buildEmail(added, changed, removed, total, runDate));
+  // Step 6 — Refresh Availity transaction support data
+  log('
+Starting Availity transaction refresh...');
+  let availityResults = null;
+  try {
+    availityResults = await refreshAvailityData();
+  } catch (e) {
+    log('Availity refresh failed: ' + e.message);
+  }
+
+  await sendEmail(subject, buildEmail(added, changed, removed, total, runDate, availityResults));
   log('Complete.');
   process.exit(0);
 }
