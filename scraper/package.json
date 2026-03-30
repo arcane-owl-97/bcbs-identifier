@@ -8,7 +8,7 @@
     "test": "node scrape.js --test"
   },
   "dependencies": {
-    "puppeteer": "^21.0.0",
+    "puppeteer-core": "^21.0.0",
     "node-fetch": "^2.7.0"
   }
 }
