@@ -155,4 +155,10 @@ sh.forEach(function(x){
 var sum=avSummary(x[1][0]);
 h+='<tr><td class="mono">'+x[0]+'</td><td>'+x[1][0]+'</td><td>'+x[1][1]+'</td>';
 h+='<td class="mono" style="font-size:12px">'+(sum.pids.length?sum.pids.join(', '):'\u2014')+'</td>';
-h+='<td>'+bds(sum.has270)+'</td><t
+h+='<td>'+bds(sum.has270)+'</td><td>'+bds(sum.hasPa)+'</td><td>'+bds(sum.hasRef)+'</td>';
+h+='<td>'+(sum.has275?'<span class="at">\u2713</span>':bds(false))+'</td></tr>';
+});
+h+='</table>';el.innerHTML=h;
+}
+
+(function(){var ss=[];var seen={};N.forEach(function(p){if(!seen[p[1]]){seen[p[1]]=1;ss.push(p[1])}});ss.sort();var sel=document.getElementById('df');ss.forEach(function(s){var o=document.createElement('option');o.value=s;o.textContent=s;sel.appendChild(o)})})();
